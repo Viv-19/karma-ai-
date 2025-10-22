@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GoodKarma InnerEcho - Chat</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "accent-green": "#2AA37C",
+        "deep-teal": "#0F3D3E",
+        "light-emerald": "#5BC3A4",
+      },
+      fontFamily: {
+        display: ["Inter", "sans-serif"],
+      },
+      boxShadow: {
+        soft: "0 8px 30px rgba(0,0,0,0.12)",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0, transform: "translateY(20px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 0.8s ease-out forwards",
+      },
+    },
+  },
+};
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+<style>
+  html, body {
+    height: 100%;
+    scroll-behavior: smooth;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(42,163,124,0.8);
+    border-radius: 6px;
+  }
+</style>
+</head>
+
+<body class="bg-gradient-to-br from-[#0B2F2F] via-[#115E56] to-[#41A189] font-display text-white min-h-screen flex flex-col overflow-hidden">
+
+<!-- HEADER -->
+<header class="backdrop-blur-2xl bg-white/10 sticky top-0 z-50 border-b border-white/20 shadow-soft">
+  <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="C:\\Users\\vives\\OneDrive\\Desktop\\goodkarma frontend\\logo.png"
+           alt="GoodKarma AI Logo"
+           class="w-12 h-12 rounded-full drop-shadow-lg"/>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-accent-green tracking-tight">
+        GoodKarma AI
+      </h1>
+    </div>
+    <nav class="hidden md:flex gap-8 text-white/90 font-semibold text-base">
+      <a href="#" class="hover:text-accent-green transition-colors">About</a>
+      <a href="#" class="hover:text-accent-green transition-colors">Services</a>
+      <a href="#" class="hover:text-accent-green transition-colors">Dr. Ghosh</a>
+      <a href="#" class="hover:text-accent-green transition-colors">Pricing</a>
+      <a href="#" class="hover:text-accent-green transition-colors">FAQs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- CHAT INTERFACE -->
+<main class="flex-grow flex justify-center items-center p-6">
+  <div class="w-full max-w-4xl h-[750px] backdrop-blur-2xl bg-white/10 border border-white/20 rounded-2xl shadow-soft p-6 flex flex-col overflow-hidden animate-fadeIn transition-all duration-500">
+
+    <!-- Chat messages -->
+    <div id="chat-container" class="flex flex-col-reverse gap-4 p-4 overflow-y-auto flex-1 scroll-smooth">
+      <!-- messages dynamically added here -->
+    </div>
+
+    <!-- Option buttons -->
+    <div id="options" class="flex gap-3 p-4 border-t border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300">
+      <!-- dynamic buttons -->
+    </div>
+  </div>
+</main>
+
+<!-- SCRIPT -->
+<script>
+const questions = [
+  { id: 1, text: "Welcome to InnerEcho 🌿 How are you feeling today?", options: ["Good", "Okay", "Not great"] },
+  { id: 2, text: "Do you sometimes feel overwhelmed by your thoughts or emotions?", options: ["Yes", "No"] },
+  { id: 3, text: "Are you having difficulty sleeping or eating?", options: ["Yes", "No"] },
+  { id: 4, text: "Would you like us to share personalized self-care insights?", options: ["Yes", "No"] },
+  { id: 5, text: "Thank you! Your responses will help us enhance your wellbeing experience 🌸", options: [] }
+];
+
+let currentQuestionIndex = 0;
+const chatContainer = document.getElementById("chat-container");
+const optionsContainer = document.getElementById("options");
+
+function renderQuestion(question) {
+  if (!question) return;
+
+  const botBubble = document.createElement("div");
+  botBubble.className = "flex items-start gap-3 animate-fadeIn";
+  botBubble.innerHTML = `
+    <div class="bg-accent-green rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+      <img src="C:/Users/vives/OneDrive/Desktop/goodkarma frontend/logo.png" class="w-6 h-6" />
+    </div>
+    <p class="flex-1 rounded-2xl px-4 py-3 bg-white/15 text-white shadow-md">${question.text}</p>
+  `;
+  chatContainer.prepend(botBubble);
+  chatContainer.scrollTo({ top: 0, behavior: 'smooth' });
+
+  renderOptions(question.options);
+}
+
+function renderOptions(options) {
+  optionsContainer.innerHTML = "";
+  if (!options || options.length === 0) {
+    const doneBtn = document.createElement("button");
+    doneBtn.className = "flex-1 h-12 rounded-xl bg-accent-green text-white font-extrabold shadow-md hover:bg-light-emerald transition-all";
+    doneBtn.textContent = "Finish ✨";
+    doneBtn.addEventListener("click", () => {
+      alert("Thank you for your responses! 🌿");
+    });
+    optionsContainer.appendChild(doneBtn);
+    return;
+  }
+
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "flex-1 h-12 rounded-xl bg-accent-green text-white font-semibold shadow-md hover:bg-light-emerald transition-all";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => submitAnswer(opt));
+    optionsContainer.appendChild(btn);
+  });
+}
+
+function submitAnswer(answer) {
+  optionsContainer.innerHTML = "";
+
+  const userBubble = document.createElement("p");
+  userBubble.className = "self-end rounded-2xl px-4 py-3 bg-white/25 text-white shadow-md animate-fadeIn";
+  userBubble.textContent = answer;
+  chatContainer.prepend(userBubble);
+  chatContainer.scrollTo({ top: 0, behavior: 'smooth' });
+
+  currentQuestionIndex++;
+  const nextQuestion = questions[currentQuestionIndex] || null;
+
+  if (!nextQuestion) {
+    const endMsg = document.createElement("p");
+    endMsg.className = "self-start rounded-2xl px-4 py-3 bg-white/15 text-white shadow-md animate-fadeIn";
+    endMsg.textContent = "That’s all for now 🌙 Thank you for taking time with InnerEcho.";
+    chatContainer.prepend(endMsg);
+    renderOptions([]);
+  } else {
+    renderQuestion(nextQuestion);
+  }
+}
+
+renderQuestion(questions[0]);
+</script>
+
+</body>
+</html>

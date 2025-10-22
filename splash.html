@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GoodKarma AI - Splash</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "accent-green": "#2AA37C",
+            "deep-teal": "#0F3D3E",
+            "light-emerald": "#5BC3A4",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          boxShadow: {
+            soft: "0 8px 30px rgba(0,0,0,0.12)",
+          },
+          keyframes: {
+            fadeIn: {
+              "0%": { opacity: 0, transform: "translateY(30px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
+            fadeOut: {
+              "0%": { opacity: 1 },
+              "100%": { opacity: 0 },
+            },
+            glow: {
+              "0%, 100%": { opacity: 0.4 },
+              "50%": { opacity: 0.7 },
+            },
+          },
+          animation: {
+            fadeIn: "fadeIn 1s ease-out forwards",
+            fadeOut: "fadeOut 1s ease-in forwards",
+            glow: "glow 3s ease-in-out infinite",
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-[#0B2F2F] via-[#115E56] to-[#41A189] font-display text-white min-h-screen overflow-hidden">
+
+  <!-- Subtle gradient glow behind content -->
+  <div class="absolute inset-0 flex justify-center items-center">
+    <div class="w-[600px] h-[600px] bg-accent-green/20 blur-3xl rounded-full animate-glow"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="splash" class="relative flex min-h-screen flex-col items-center justify-center text-center animate-fadeIn">
+    
+ 
+
+    <!-- Large Logo -->
+    <div class="flex flex-col items-center">
+      <img
+        src="kai.png"
+        alt="Karma AI Logo"
+        class="w-[500px] h-[500px] md:w-[600px] md:h-[600px] object-contain drop-shadow-2xl"
+      />
+    </div>
+
+ 
+
+  <!-- Redirect Script -->
+  <script>
+    // After fade animation, redirect to main page
+    setTimeout(() => {
+      document.getElementById("splash").classList.add("animate-fadeOut");
+      setTimeout(() => {
+        window.location.href = "user_submission_form.html";
+      }, 1000); // wait for fade-out
+    }, 3500); // visible for ~3.5s
+  </script>
+
+</body>
+</html>
